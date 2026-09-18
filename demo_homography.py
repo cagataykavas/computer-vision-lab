@@ -12,9 +12,7 @@ def main() -> None:
 
     canvas = np.zeros((500, 700, 3), dtype=np.uint8)
     cv2.rectangle(canvas, (170, 120), (530, 380), (255, 255, 255), -1)
-    cv2.putText(
-        canvas, "CV LAB", (245, 265), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 3
-    )
+    cv2.putText(canvas, "CV LAB", (245, 265), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 3)
 
     src = np.float32([[170, 120], [530, 120], [530, 380], [170, 380]])
     dst = np.float32([[120, 80], [590, 145], [545, 430], [145, 360]])
@@ -29,9 +27,7 @@ def main() -> None:
     )
     vis = warped.copy()
     for i in range(4):
-        cv2.line(
-            vis, tuple(projected[i]), tuple(projected[(i + 1) % 4]), (0, 255, 0), 3
-        )
+        cv2.line(vis, tuple(projected[i]), tuple(projected[(i + 1) % 4]), (0, 255, 0), 3)
 
     error = float(np.mean(np.linalg.norm(projected.astype(float) - dst, axis=1)))
     cv2.putText(
