@@ -1,2 +1,4 @@
 numpy>=2.0
 opencv-python>=4.10
+pytest>=8.0
+ruff>=0.6
