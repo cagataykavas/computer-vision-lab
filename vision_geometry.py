@@ -49,17 +49,13 @@ def estimate_homography(
     if len(source) != len(destination):
         raise HomographyEstimationError("source and destination counts must match")
     if not np.isfinite(ransac_threshold_px) or ransac_threshold_px <= 0:
-        raise HomographyEstimationError(
-            "ransac_threshold_px must be positive and finite"
-        )
+        raise HomographyEstimationError("ransac_threshold_px must be positive and finite")
     if not 0 < confidence < 1:
         raise HomographyEstimationError("confidence must be between zero and one")
     if max_iterations <= 0:
         raise HomographyEstimationError("max_iterations must be positive")
     if not 4 <= minimum_inliers <= len(source):
-        raise HomographyEstimationError(
-            "minimum_inliers must be between 4 and point count"
-        )
+        raise HomographyEstimationError("minimum_inliers must be between 4 and point count")
     if not 0 < minimum_inlier_ratio <= 1:
         raise HomographyEstimationError("minimum_inlier_ratio must be within (0, 1]")
 
@@ -77,9 +73,7 @@ def estimate_homography(
     if matrix is None or raw_mask is None or not np.isfinite(matrix).all():
         raise HomographyEstimationError("OpenCV could not estimate a finite homography")
     if abs(float(matrix[2, 2])) < 1e-12:
-        raise HomographyEstimationError(
-            "homography normalization is numerically unstable"
-        )
+        raise HomographyEstimationError("homography normalization is numerically unstable")
 
     matrix = np.asarray(matrix / matrix[2, 2], dtype=np.float64)
     inliers = raw_mask.reshape(-1).astype(bool)
@@ -125,9 +119,7 @@ def _validated_points(values: NDArray[np.floating], name: str) -> NDArray[np.flo
     if not np.isfinite(points).all():
         raise HomographyEstimationError(f"{name} must contain only finite coordinates")
     if len(np.unique(points, axis=0)) < 4:
-        raise HomographyEstimationError(
-            f"{name} must contain at least four unique points"
-        )
+        raise HomographyEstimationError(f"{name} must contain at least four unique points")
     return points
 
 
