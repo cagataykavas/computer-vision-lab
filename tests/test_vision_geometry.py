@@ -14,9 +14,7 @@ def _synthetic_correspondences() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         [[1.05, 0.08, 24.0], [-0.04, 0.97, 18.0], [0.0002, -0.00015, 1.0]],
         dtype=np.float64,
     )
-    destination = cv2.perspectiveTransform(source.reshape(-1, 1, 2), expected).reshape(
-        -1, 2
-    )
+    destination = cv2.perspectiveTransform(source.reshape(-1, 1, 2), expected).reshape(-1, 2)
     destination += rng.normal(0, 0.35, size=destination.shape)
     destination[-12:] = rng.uniform([0, 0], [640, 480], size=(12, 2))
     return source, destination, expected
@@ -39,12 +37,10 @@ def test_robust_estimator_recovers_transform_and_reports_quality() -> None:
     assert np.isfinite(result.condition_number)
 
     check_points = np.array([[10, 20], [300, 200], [620, 450]], dtype=np.float64)
-    estimated = cv2.perspectiveTransform(
-        check_points.reshape(-1, 1, 2), result.matrix
-    ).reshape(-1, 2)
-    truth = cv2.perspectiveTransform(check_points.reshape(-1, 1, 2), expected).reshape(
+    estimated = cv2.perspectiveTransform(check_points.reshape(-1, 1, 2), result.matrix).reshape(
         -1, 2
     )
+    truth = cv2.perspectiveTransform(check_points.reshape(-1, 1, 2), expected).reshape(-1, 2)
     assert float(np.max(np.linalg.norm(estimated - truth, axis=1))) < 1.0
     assert result.to_dict()["inlier_count"] == result.inlier_count
 
